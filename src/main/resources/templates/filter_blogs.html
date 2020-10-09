@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ch" mlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!--    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css}"-->
+    <!--          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <script th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js}"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js}"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/mystyle.css}">
+    <link rel="stylesheet" th:href="@{/css/style_article.css}">
+    <link rel="stylesheet" th:href="@{/css/style_icon.css}">
+    <link rel="stylesheet" th:href="@{/css/editormd.css}">
+    <!--    图标-->
+    <script th:src="@{//at.alicdn.com/t/font_1333916_f9l9u03stpt.js}"></script>
+    <script th:src="@{/js/iconfont.js}"></script>
+    <!--    <script th:src="@{/js/showdown.min.js}"></script>-->
+    <title>博客</title>
+
+</head>
+<body>
+<header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar ">
+
+    <div class="navbar-nav-scroll">
+        <ul class="navbar-nav bd-navbar-nav flex-row">
+            <li class="nav-item">
+                <a class="nav-link " th:href="@{/}">首页</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">博客</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#">关于</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/to_blog_edit}">编辑</a>
+            </li>
+            <li th:if="${user}==null"  class="nav-item ">
+                <!--                <img th:src="/img/qq_logo.png">-->
+                <a class="nav-link" th:href="@{/to_login}">登陆</a>
+            </li>
+            <li th:if="${user}" class="nav-item" th:object="${user}">
+                <a class="nav-link" th:text="*{nickname}"></a>
+            </li>
+        </ul>
+
+    </div>
+</header>
+<!--<header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar ">-->
+
+<!--    <div class="navbar-nav-scroll">-->
+<!--        <ul class="navbar-nav bd-navbar-nav flex-row">-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link " href="#">首页</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link active" href="#">博客</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link " href="#">关于</a>-->
+<!--            </li>-->
+<!--            <li th:if="${user}==null" class="nav-item ">-->
+<!--                &lt;!&ndash;                <img th:src="/img/qq_logo.png">&ndash;&gt;-->
+<!--                <a class="nav-link" th:href="@{/to_login}">登陆</a>-->
+<!--            </li>-->
+<!--            <li th:if="${user}" class="nav-item" th:object="${user}">-->
+<!--                <a class="nav-link" th:text="*{nickname}"></a>-->
+<!--            </li>-->
+<!--        </ul>-->
+
+<!--    </div>-->
+<!--</header>-->
+<div class="container-fluid">
+    <div class="row flex-xl-nowrap">
+        <div class="col-l2 col-md-3 col-xl-2 bd-sidebar" style="overflow-y: auto">
+            <form class="bd-search d-flex align-items-center" id="search" th:href="@{/selectByKeyword}">
+                <span class="algolia-autocomplete" style="position: relative;display: inline-block;direction: ltr;">
+                    <input name="selectKeyword" type="search" id="search_msg" class="form-control" placeholder="search"
+                           autocomplete="off" spellcheck="false"
+                           role="combobox"
+                           aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0"
+                           dir="auto" style="position: relative; vertical-align: top;">
+
+                </span>
+                <nav class="navbar  navbar-expand-lg navbar-light " style="position: relative">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon" style="color: #000;"></span>
+                    </button>
+                </nav>
+
+            </form>
+
+            <nav class="navbar navbar-expand-lg navbar-light">
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav flex-column folder-action">
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{/show_essays(page=0)}">All <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li th:each="folder:${folders}" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle my-folder" data-toggle="dropdown" href="#"
+                               th:text="${folder.folderName}">
+                                Test
+                            </a>
+                            <ul class="dropdown-menu">
+                                <a class="dropdown-item" href="#" th:each="folderEssay:${folderEssay}"
+                                   th:if="${folderEssay.folderName} == ${folder.folderName} "
+                                   th:text="${folderEssay.essayName}"></a>
+                                <!--                                <a class="dropdown-item" href="#" th:text="${folder.folderName}"></a>-->
+                                <!--                                <a class="dropdown-item" href="#" th:text="${folder.folderName}">two</a>-->
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content" role="main">
+            <div class="article " th:each="page:${pages}">
+                <div class="inner">
+                    <!--                    <div class="article-header">-->
+                    <!--                        <figure>-->
+                    <!--                            <img  th:src="${page.imgUrl}"/>-->
+                    <!--                        </figure>-->
+                    <!--                    </div>-->
+                    <div class="article-preview">
+                        <div class="detail">
+                            <div class="folder">
+                                <a href="#" th:text="${page.folder}">Test</a>
+                            </div>
+                            <div class="time" th:text="${page.time}">
+                                2019.08.05
+                            </div>
+                        </div>
+                        <div class="article-content ">
+                            <div class="content-title">
+                                <h1 th:text="${page.essayName}">
+                                    这是一个标题
+                                </h1>
+                            </div>
+                            <!--                                       editormd 的js文件修改了overflow ,在这里进行修改-->
+                            <div class="essay essay_list" th:id="${page.essayName}" style="overflow: hidden">
+                                            <textarea class="content" style="display: none"
+                                                      th:text="${page.essayContent}">
+
+                                        </textarea>
+                            </div>
+
+                            <div class="article-footer">
+                                <a class="like" style="color:#8CC7B5">
+                                    <svg class="icon">
+                                        <use xlink:href="#icon-heart-fill"></use>
+                                    </svg>
+                                    <div th:text="${page.essayLikeNum}">66</div>
+                                </a>
+                                <button type="button" class="btn btn-primary" style="background-color: #fff">
+                                    <div class="my-btn"><a th:href="@{/to_blog(essayName=${page.essayName})}">More</a>
+                                    </div>
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!--                    上一页-->
+            <a class="my-page-nav my-previous"
+               th:href="@{/selectByEssayName(essayName=${selectKeyword},page=${pageNum}-1)}" th:if="${pageNum} > 0">
+                <svg class="icon">
+                    <use xlink:href="#icon-hashiqi-left"></use>
+                </svg>
+            </a>
+
+
+            <!--                    下一页-->
+            <a class="my-page-nav my-next" th:href="@{/nextPage(essayName=${nextPage},page=${pageNum}+1)}"
+               th:if="${pageNum} <  ${pageNumEnd}-1">
+                <svg class="icon">
+                    <use xlink:href="#icon-hashiqi-right"></use>
+                </svg>
+            </a>
+
+        </main>
+        <div class="d-none d-xl-block col-xl-2 bd-toc" style="background: #142334;color: #555555"
+             th:include="template::author-msg">
+        </div>
+    </div>
+    <footer style="padding: 1rem 0;background: #f4f5f7" th:include="template::footer">
+    </footer>
+</div>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/marked.min.js}"></script>
+<!--<script th:src="@{js/raphael.min.js}"></script>-->
+<!--<script th:src="@{js/flowchart.min.js}"></script>-->
+<!--<script th:src="@{js/sequence-diagram.min.js}"></script>-->
+<!--<script th:src="@{js/underscore.min.js}"></script>-->
+<!--<script th:src="@{js/jquery.flowchart.min.js}"></script>-->
+<script th:src="@{js/editormd.js}"></script>
+<script th:src="@{/js/prettify.min.js}"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $(".essay").each(function () {
+            var id = $(this).attr("id");
+            editormd.markdownToHTML(id, {
+                // htmlDecode: "style,script,iframe",  // you can filter tags decode
+                // emoji: true,
+                // taskList: true,
+            });
+        })
+    });
+</script>
+</body>
+</html>

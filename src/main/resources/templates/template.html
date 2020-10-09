@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+</head>
+<body>
+<div th:fragment="author-msg">
+    <img class="card-img-top" style="background: #142334" th:src="@{/image/img_1.jpg}"/>
+    <p class="author-name">随便</p>
+    <p class="author-msg">练习时长三年的菜鸡程序员</p>
+    <p class="author-msg">邮箱: zjm404@foxmail</p>
+</div>
+<div th:fragment="footer">
+    <p style="color: #8898aa;text-align: center"> 豫ICP备18034526号</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ch" mlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js}"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js}"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/mystyle.css}">
+    <link rel="stylesheet" th:href="@{/css/style_article.css}">
+    <link rel="stylesheet" th:href="@{/css/style_icon.css}">
+    <link rel="stylesheet" th:href="@{/css/editormd.css}">
+
+    <link rel="stylesheet" th:href="@{/css/jquery.contextMenu.css}">
+    <!--    <script th:src="@{/js/jquery.contextMenu.js}" type="text/javascript"></script>-->
+    <!--    <script th:src="@{/js/jquery.ui.position.min.js}"></script>-->
+    <!--    <script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>-->
+    <script th:src="@{//at.alicdn.com/t/font_1333916_yv7n79htkfn.js}"></script>
+    <script th:src="@{/js/iconfont.js}"></script>
+    <script th:src="@{/js/iconfont.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/zui.min.css}">
+    <script th:src="@{/js/zui.min.js}"></script>
+    <title>博客</title>
+
+</head>
+<body style="overflow-y: hidden">
+<header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar ">
+
+    <div class="navbar-nav-scroll">
+        <ul class="navbar-nav bd-navbar-nav flex-row">
+            <li class="nav-item">
+                <a class="nav-link " th:href="@{/to_index}">首页</a>
+            </li>1
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/show_essays(page=0)}">博客</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">管理</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#">关于</a>
+            </li>
+            <li th:if="${user}==null" class="nav-item ">
+                <!--                <img th:src="/img/qq_logo.png">-->
+                <a class="nav-link" th:href="@{/to_login}">登陆</a>
+            </li>
+            <li th:if="${user}" class="nav-item" th:object="${user}">
+                <a class="nav-link" th:text="*{nickname}"></a>
+            </li>
+        </ul>
+
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row flex-xl-nowrap">
+        <div class="col-l2 col-md-3 col-xl-2 bd-sidebar" style="overflow-y: auto">
+
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="collapse navbar-collapse admin-nav" id="navbarSupportedContent">
+                    <ul class="nav flex-column folder-action">
+                        <li class="nav-item">
+
+                            <a class="nav-link admin-nav-link" href="#">
+                                <svg class="admin-icon">
+                                    <use xlink:href="#icon-doc_d"></use>
+                                </svg>
+                                写文章
+                            </a>
+                        </li>
+                        <li class="nav-item admin-active">
+                            <a class="nav-link admin-nav-link" href="#">
+                                <svg class=" admin-icon">
+                                    <use xlink:href="#icon-doc_a"></use>
+                                </svg>
+                                管理文章
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav-link admin-nav-link" href="#">
+                                <svg class="admin-icon">
+                                    <use xlink:href="#icon-doc_b"></use>
+                                </svg>
+                                管理分类
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <main  class="col-12 col-md-9 col-xl-8 bd-content" role="main" style="overflow-y: hidden;padding-left: 0">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <table class="col-md-9 admin-table">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">文章名</li>
+                        <li class="list-group-item">文件夹</li>
+                        <li class="list-group-item">日期</li>
+                        <li class="list-group-item">操作一</li>
+                        <li class="list-group-item">操作二</li>
+                    </ul>
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">test</li>
+                        <li class="list-group-item">java</li>
+                        <li class="list-group-item">54564</li>
+                        <li class="list-group-item"><button class="btn btn-block">删除</button></li>
+                        <li class="list-group-item"><button class="btn btn-block">编辑</button></li>
+                    </ul>
+                </table>
+            </div>
+
+
+        </main>
+<!--        <div class="d-none d-xl-block col-xl-2 bd-toc" style="background-color: #9fcdff">-->
+
+<!--            <form class="form-horizontal">-->
+<!--                <div class="form-group">-->
+<!--                    <label for="title">Title</label>-->
+<!--                    <div>-->
+<!--                        <input type="text" class="form-control" id="title" placeholder="title">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="folder">Folder</label>-->
+<!--                    <svg class="icon">-->
+<!--                        <use xlink:href="#icon-editor"></use>-->
+<!--                    </svg>-->
+<!--                    <div>-->
+<!--                        <select  class="form-control" id="folder" placeholder="folder">-->
+<!--                            <option>java</option>-->
+<!--                            <option>mysql</option>-->
+<!--                        </select>-->
+<!--                        &lt;!&ndash;                            <select id="folder" class="form-control">&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <option>Java</option>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <option>C</option>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                                <option>Python</option>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                            </select>&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        <input class="form-control">&ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+
+    </div>
+</div>
+<script th:src="@{js/jquery.min.js}"></script>
+<!--<script th:src="@{js/marked.min.js}"></script>-->
+<!--<script th:src="@{js/raphael.min.js}"></script>-->
+<!--<script th:src="@{js/flowchart.min.js}"></script>-->
+<!--<script th:src="@{js/sequence-diagram.min.js}"></script>-->
+<!--<script th:src="@{js/underscore.min.js}"></script>-->
+<!--<script th:src="@{js/jquery.flowchart.min.js}"></script>-->
+<script th:src="@{js/editormd.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        var essayName = $("#title").val();
+        editormd("test-md", {
+            theme:"default",
+            previewTheme:"default",
+            editorTheme:"base16-light",
+            syncScrolling: "single",
+            path: "/js/lib/",
+            imageFormats:["jpg","jpeg","gif","png","bmp","webp"],
+            imageUploadURL:"/upload?essayName="+essayName,
+            toolbarIcons: function () {
+                // Or return editormd.toolbarModes[name]; // full, simple, mini
+                // Using "||" set icons align right.
+                return ["undo", "redo", "|", "bold", "hr", "|", "info", "watch", "fullscreen", "preview","image",
+                    "||", "save"]
+                //     return ["undo", "redo", "|",
+                //         "bold", "del", "italic", "quote", "uppercase", "lowercase", "|",
+                //         "h1", "h2", "h3", "h4", "h5", "h6", "|",
+                //         "list-ul", "list-ol", "hr", "|",
+                //         "watch", "preview", "fullscreen", "|",
+                //         "help", "info","||","file"];
+            },
+            toolbarIconsClass: {
+                save: "fa-save"
+            },
+            toolbarHandlers: {
+                save: function () {
+                    var title = $("#title").val();
+                    var text = $("#text").val();
+                    var folder = $("#folder").val();
+                    $.ajax({
+                        type: 'post',
+                        url: '/save_blog',
+                        data: {
+                            "title": title,
+                            "text": text,
+                            "folder": folder
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var msg = data["data"];
+                            alert(msg);
+                        }
+                    })
+                }
+            }
+
+
+        });
+    });
+</script>
+<script type="text/javascript">
+    function getContent(essayName) {
+        $.ajax({
+            type: 'post',
+            url: '/edit_essay',
+            data: {
+                "essayName": essayName
+            },
+            dataType: 'json',
+            success: function (data) {
+                var folder = data["folder"];
+                var content = data["content"];
+                alert(content);
+                $("#text").val(content);
+                $("#title").val(essayName);
+                $("#folder").val(folder);
+
+                editormd("test-md", {
+                    theme:"default",
+                    previewTheme:"default",
+                    editorTheme:"base16-light",
+                    syncScrolling: "single",
+                    path: "/js/lib/",
+                    codeFold: true,
+                    imageUpload:true,
+                    imageFormats:["jpg","jpeg","gif","png","bmp","webp"],
+                    imageUploadURL:"/upload?essayName="+essayName,
+
+                    toolbarIcons: function () {
+                        // Or return editormd.toolbarModes[name]; // full, simple, mini
+                        // Using "||" set icons align right.
+                        return ["undo", "redo", "|", "bold", "hr", "|", "info", "watch", "fullscreen", "preview","image",
+                            "||", "save"]
+                        //     return ["undo", "redo", "|",
+                        //         "bold", "del", "italic", "quote", "uppercase", "lowercase", "|",
+                        //         "h1", "h2", "h3", "h4", "h5", "h6", "|",
+                        //         "list-ul", "list-ol", "hr", "|",
+                        //         "watch", "preview", "fullscreen", "|",
+                        //         "help", "info","||","file"];
+                    },
+                    toolbarIconsClass: {
+                        save: "fa-save"
+                    },
+                    toolbarHandlers: {
+                        save: function () {
+                            var title = $("#title").val();
+                            var text = $("#text").val();
+                            var folder = $("#folder").val();
+                            $.ajax({
+                                type: 'post',
+                                url: '/save_blog',
+                                data: {
+                                    "title": title,
+                                    "text": text,
+                                    "folder": folder
+                                },
+                                dataType: 'json',
+                                success: function (data) {
+                                    var msg = data["data"];
+                                    alert(msg);
+                                }
+                            })
+                        }
+                    }
+
+
+                });
+            }
+        })
+    }
+    function deleteContent(essayName) {
+        $.ajax({
+            type: 'delete',
+            url: '/essay',
+            data: {
+                "essayName": essayName
+            },
+            dataType: 'json',
+            success: function (data) {
+                alert("删除成功");
+                location.reload();
+            }
+        })
+    }
+</script>
+</body>
+</html>

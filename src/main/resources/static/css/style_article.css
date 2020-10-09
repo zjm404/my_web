@@ -1,0 +1,124 @@
+.article{
+    margin-bottom: 5px;
+    position: relative;
+    display: block;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.essay_list{
+    max-height: 200px;
+    overflow: hidden;
+}
+.article .inner{
+    margin-top: 10px;
+    display: inline-block;
+    width: 100%;
+}
+.article-header figure{
+    width:300px;
+    height: 195px;
+    overflow: hidden;
+    float: left;
+    display: inline-block;
+    margin-bottom: 0px;
+}
+.article-header figure img{
+    width: 100%;
+    vertical-align: middle;
+    border: 0;
+}
+.detail{
+    margin-bottom: 5px;
+    font-size: 12px;
+    display: -moz-box;
+}
+.folder a{
+    color: #f73f52;
+}
+.time,.folder{
+    color: #191e21;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.article-preview{
+    padding: 5px;
+    /*margin-left: 315px;*/
+}
+.article-content{
+
+}
+.ccontent-title{
+
+}
+.content-title h1{
+    margin: 0;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    line-height: 28px;
+}
+.test-md{
+    overflow: hidden;
+    max-height: 200px;
+}
+/*.test-md textarea{*/
+/*    line-height: 26px;*/
+/*    font-weight: 400;*/
+/*    color: rgba(0,0,0,0.85);*/
+/*}*/
+.article-footer{
+    height: 46px;
+    margin-top: 20px;
+    text-align: right;
+    display: block;
+}
+.like{
+    color: #989898;
+    float: left;
+    margin-top: 5px;
+    position: relative;
+}
+.like a:hover{
+    color: #00a8c6;
+}
+.like svg{
+    display: inline-block;
+    float: left;
+    margin-top: 1px;
+    width: 26px;
+    height: 26px;
+}
+.like div{
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-left: 5px;
+}
+.my-btn{
+    color: #ee5a70;
+}
+@media screen and (max-width: 425px) {
+    .article-header figure{
+        width: 100%;
+        height: 100%;
+        margin-bottom: 10px;
+        overflow: hidden;
+        float: left;
+        display: inline-block;
+    }
+    .article-preview{
+        margin-left: 0px;
+        padding: 5px;
+    }
+    *{
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+}
+@media screen and (max-width: 320px){
+    article figure{
+        margin: 0;
+    }
+}

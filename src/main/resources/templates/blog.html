@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!--    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css}"-->
+    <!--          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <script th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js}"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js}"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/mystyle.css}">
+    <link rel="stylesheet" th:href="@{/css/style_article.css}">
+    <link rel="stylesheet" th:href="@{/css/style_icon.css}">
+    <link rel="stylesheet" th:href="@{/css/editormd.css}">
+    <!--    图标-->
+    <script th:src="@{//at.alicdn.com/t/font_1333916_f9l9u03stpt.js}"></script>
+    <script th:src="@{/js/iconfont.js}"></script>
+    <!--    <script th:src="@{/js/showdown.min.js}"></script>-->
+    <link rel="stylesheet" th:href="@{/css/zui.min.css}">
+    <script th:src="@{/js/zui.min.js}"></script>
+    <!--    <script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.1/js/zui.min.js"></script>-->
+    <title>博客</title>
+
+</head>
+<body>
+<header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar ">
+
+    <div class="navbar-nav-scroll">
+        <ul class="navbar-nav bd-navbar-nav flex-row">
+            <li class="nav-item">
+                <a class="nav-link " th:href="@{/}">首页</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">博客</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#">关于</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/to_blog_edit}">编辑</a>
+            </li>
+            <li th:if="${user}==null" class="nav-item ">
+                <!--                <img th:src="/img/qq_logo.png">-->
+                <a class="nav-link" th:href="@{/to_login}">登陆</a>
+            </li>
+            <li th:if="${user}" class="nav-item" th:object="${user}">
+                <a class="nav-link" th:text="*{nickname}"></a>
+            </li>
+        </ul>
+
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row flex-xl-nowrap">
+        <div class="col-l2 col-md-3 col-xl-2 bd-sidebar" style="overflow-y: auto">
+            <form class="bd-search d-flex align-items-center" th:action="@{/selectByKeyword}">
+                <span class="algolia-autocomplete" style="position: relative;display: inline-block;direction: ltr;">
+                    <input name="selectKeyword" type="search" id="search_msg" class="form-control" placeholder="search"
+                           autocomplete="off" spellcheck="false"
+                           role="combobox"
+                           aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0"
+                           dir="auto" style="position: relative; vertical-align: top;">
+                </span>
+                <nav class="navbar  navbar-expand-lg navbar-light " style="position: relative">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon" style="color: #000;"></span>
+                    </button>
+                </nav>
+
+            </form>
+
+
+            <nav class="navbar navbar-expand-lg navbar-light">
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav flex-column folder-action">
+                        <li class="nav-item active">
+                            <a class="nav-link" th:href="@{/show_essays(page=0)}">All <span
+                                    class="sr-only">(current)</span></a>
+                        </li>
+                        <li th:each="folder:${folders}" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle my-folder" data-toggle="dropdown" href="#"
+                               th:text="${folder.folderName}">
+                                Test
+                            </a>
+                            <ul class="dropdown-menu">
+                                <a class="dropdown-item" th:href="@{/to_blog(essayName=${essay.essayName})}"
+                                   th:each="folderEssay:${folderEssay}"
+                                   th:if="${folderEssay.folderName} == ${folder.folderName} "
+                                   th:text="${folderEssay.essayName}"></a>
+                                <!--                                <a class="dropdown-item" href="#" th:text="${folder.folderName}"></a>-->
+                                <!--                                <a class="dropdown-item" href="#" th:text="${folder.folderName}">two</a>-->
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <!--        <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content"  role="main">-->
+        <main class="col-12 col-md-9 col-xl-8 py-md-3  bd-content" role="main">
+            <div class="article">
+                <div class="inner">
+                    <div class="article-preview">
+                        <div class="detail">
+                            <div class="folder">
+                                <a href="#" th:text="${essay.folder}">Test</a>
+                            </div>
+                            <div class="time" th:text="${essay.time}">
+                                2019.08.05
+                            </div>
+                        </div>
+                        <div class="article-content">
+                            <div class="content-title">
+                                <h1 id="essayName" th:text="${essay.essayName}">
+                                    这是一个标题
+                                </h1>
+                            </div>
+                            <div class="essay" th:id="${essay.essayName}">
+                                            <textarea id="my_style" class="content" style="display: none"
+                                                      th:text="${essay.essayContent}">
+                                        </textarea>
+                            </div>
+                        </div>
+                        <div class="article-footer">
+                            <a class="like" th:if="${clicked}==1"
+                               th:onclick="like([[${essay.essayName}]],[['like'+${essay.essayName}]]);"
+                               th:id="'like' + ${essay.essayName}" style="color:#F4606c">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-heart-fill"></use>
+                                </svg>
+                                <div th:text="${essay.essayLikeNum}" th:id="'likeNum' + ${essay.essayName}">66</div>
+                            </a>
+                            <a class="like" th:if="${clicked}==0"
+                               th:onclick="like([[${essay.essayName}]],[['like'+${essay.essayName}]]);"
+                               th:id="'like' + ${essay.essayName}" style="color:#8CC7B5">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-heart-fill"></use>
+                                </svg>
+                                <div th:text="${essay.essayLikeNum}" th:id="'likeNum' + ${essay.essayName}">66</div>
+                            </a>
+                            <!--                            <div class="pull-right">-->
+                            <a class="like" style="margin-left: 10px" onclick="toComment()" href="#commentReplyForm2">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-message"></use>
+                                </svg>
+                            </a>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="comments">
+                <div class="comments-list" >
+                </div>
+                <footer>
+                    <div class="reply-form" id="commentReplyForm2">
+                        <form class="form">
+                            <div class="form-group">
+                                <textarea id="content" class="form-control new-comment-text" rows="3"
+                                          placeholder="撰写评论..."></textarea>
+                                <button id="comment_submit" class="btn btn-dark" type="button"
+                                        style="float: right;margin-top:10px ">确定
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </footer>
+            </div>
+        </main>
+        <div class="d-none d-xl-block col-xl-2 bd-toc" style="background: #142334;color: #555555"
+             th:include="template::author-msg">
+        </div>
+
+    </div>
+
+</div>
+<footer style="padding: 1rem 0;background: #f4f5f7" th:include="template::footer">
+</footer>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/marked.min.js}"></script>
+<!--<script th:src="@{js/raphael.min.js}"></script>-->
+<!--<script th:src="@{js/flowchart.min.js}"></script>-->
+<!--<script th:src="@{js/sequence-diagram.min.js}"></script>-->
+<!--<script th:src="@{js/underscore.min.js}"></script>-->
+<!--<script th:src="@{js/jquery.flowchart.min.js}"></script>-->
+<script th:src="@{/js/prettify.min.js}"></script>
+<script th:src="@{js/editormd.js}"></script>
+<!--Markdown 解析 && 加载评论-->
+<script type="text/javascript">
+    $(function () {
+        var id = $(".essay").attr("id");
+        editormd.markdownToHTML(id, {
+            // htmlDecode: "style,script,iframe",  // you can filter tags decode
+            // emoji: true,
+            // taskList: true,
+            toc: true,
+            tex: false,  // 默认不解析
+            flowChart: false,  // 默认不解析
+            sequenceDiagram: false,  // 默认不解析
+            watch: false,
+            previewCodeHighlight: true,//默认开启
+        });
+        var url = "/all/comments";
+        var page = 0;
+        var essayName = $('#essayName').text();
+        // var commentLeadId = 0;
+        var params = {
+            "essayName": essayName,
+            // "commentLeadId": commentLeadId,
+            "page": page
+        };
+        $.getJSON(url, params, function (data) {
+            data.forEach(function (obj) {
+                $("<div class=\"comment comment-content\">\n" +
+                    "        <div><a href=\"#\"><strong>" + obj.userName + "</strong></a></div>\n" +
+                    "        <div><a>" + obj.commentContent + "</a></div>\n" +
+                    "        <div class=\"actions\">\n" +
+                    "            <a href=\"#commentReplyForm2\" onclick='reply(" + obj.commentId + "," + obj.userName + ")'>回复</a>\n" +
+                    "        </div>\n" +
+                    "    </div>").appendTo(".comments-list")
+            })
+        })
+    });
+</script>
+<!--点赞-->
+<script>
+    function like(essayName, likeId) {
+        $.ajax({
+            type: 'post',
+            url: '/like',
+            data: {
+                "essayName": essayName
+            },
+            dataType: 'json',
+            success: function (data) {
+                var msg = data["data"];
+                var likeNum = data["likeNum"];
+                var likeNumId = "likeNum" + essayName;
+                if (msg == "请登录！") {
+                    alert(msg);
+                } else if (msg == "点赞成功！") {
+                    $("#" + likeNumId).text(likeNum);
+                    $('#' + likeId).css("color", "#F4606c");
+                } else if (msg == "取消点赞成功！") {
+                    $("#" + likeNumId).text(likeNum);
+                    $('#' + likeId).css("color", "#8CC7B5");
+                }
+            }
+        })
+    }
+</script>
+
+<!--评论-->
+<script type="text/javascript">
+
+
+    var commentLeadId = 0;
+
+    function reply(commentId, userName) {
+        commentLeadId = commentId;
+        $("#content").attr("placeholder", "回复用户-" + userName + "：");
+    }
+
+    function toComment() {
+        commentLeadId = 0;
+        $("#content").attr("placeholder", "评论：");
+    }
+
+    $("#comment_submit").click(function () {
+        // var content = $.trim($('#content').value());
+        var essayName = $('#essayName').text();
+        var content = $.trim($('#content').val());
+
+        if (content == "" || content == null) {
+            alert("请输入评论内容!");
+        } else {
+
+            var params = {
+                "commentContent": content,
+                "commentLeadId": commentLeadId,
+                "essayName": essayName
+            };
+            var url = "/comment";
+            $.ajax({
+                url: url,
+                type: "post",
+                data: params,
+                success: function (msg) {
+                    alert(msg);
+                    location.reload();
+                },
+                failed: function () {
+                    alert("失败！");
+                }
+            });
+        }
+    })
+
+</script>
+</body>
+</html>

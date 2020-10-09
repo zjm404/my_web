@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/zui.min.css}">
+    <script th:src="@{/js/zui.min.js}"></script>
+</head>
+<body>
+<div class="comments-list" th:fragment="comment(page,essayName,commentLeadId)">
+
+</div>
+<script th:src="@{js/jquery.min.js}" th:inline="javascript">
+    $(function () {
+        var url = "/comments";
+        var page = [[${page}]];
+        var essayName = [[${essayName}]];
+        var commentLeadId = [[${commentLeadId}]];
+        var data = {
+           "page" : page,
+           "essayName" : essayName,
+           "commentLeadId" : commentLeadId
+        };
+        $("<div class=\"comment comment-content\">\n" +
+            "        <div><a href=\"#\"><strong>张世超</strong></a></div>\n" +
+            "        <div><a>今天玩的不错</a></div>\n" +
+            "        <div class=\"actions\">\n" +
+            "            <a href=\"#\">回复</a>\n" +
+            "        </div>\n" +
+            "    </div>").appendTo(".comments-list");
+    })
+</script>
+</body>
+</html>

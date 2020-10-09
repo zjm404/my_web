@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ch" mlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!--    <link rel="stylesheet" th:href="@{https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css}"-->
+    <!--          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <script th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js}"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js}"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/mystyle.css}">
+    <link rel="stylesheet" th:href="@{/css/style_article.css}">
+    <link rel="stylesheet" th:href="@{/css/style_icon.css}">
+    <link rel="stylesheet" th:href="@{/css/editormd.css}">
+    <!--    图标-->
+    <script th:src="@{//at.alicdn.com/t/font_1333916_f9l9u03stpt.js}"></script>
+    <script th:src="@{/js/iconfont.js}"></script>
+    <!--    <script th:src="@{/js/showdown.min.js}"></script>-->
+    <title>博客</title>
+
+</head>
+<body>
+<header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar ">
+
+    <div class="navbar-nav-scroll">
+        <ul class="navbar-nav bd-navbar-nav flex-row">
+            <li class="nav-item">
+                <a class="nav-link " th:href="@{/}">首页</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">博客</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#">关于</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/to_blog_edit}">编辑</a>
+            </li>
+            <li th:if="${user}==null"  class="nav-item ">
+                <!--                <img th:src="/img/qq_logo.png">-->
+                <a class="nav-link" th:href="@{/to_login}">登陆</a>
+            </li>
+            <li th:if="${user}" class="nav-item" th:object="${user}">
+                <a class="nav-link" th:text="*{nickname}"></a>
+            </li>
+        </ul>
+
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row flex-xl-nowrap">
+        <div class="col-l2 col-md-3 col-xl-2 bd-sidebar">
+            <form class="bd-search d-flex align-items-center"th:action="@{/selectByKeyword}">
+                <span class="algolia-autocomplete" style="position: relative;display: inline-block;direction: ltr;">
+                    <input name="selectKeyword" type="search" id="search_msg" class="form-control" placeholder="search" autocomplete="off" spellcheck="false"
+                           role="combobox"
+                           aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0"
+                           dir="auto" style="position: relative; vertical-align: top;">
+                </span>
+                <nav class="navbar  navbar-expand-lg navbar-light " style="position: relative">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon" style="color: #000;"></span>
+                    </button>
+                </nav>
+
+            </form>
+
+            <nav class="navbar navbar-expand-lg navbar-light">
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav flex-column folder-action" >
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">All <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li th:each="folder:${folders}" class="nav-item dropdown" >
+                            <a class="nav-link dropdown-toggle my-folder" data-toggle="dropdown" href="#" th:text="${folder.folderName}">
+                                Test
+                            </a>
+                            <ul class="dropdown-menu" >
+                                <a class="dropdown-item" href="#" th:each="folderEssay:${folderEssay}" th:if="${folderEssay.folderName} == ${folder.folderName} " th:text="${folderEssay.essayName}"></a>
+                                <!--                                <a class="dropdown-item" href="#" th:text="${folder.folderName}"></a>-->
+                                <!--                                <a class="dropdown-item" href="#" th:text="${folder.folderName}">two</a>-->
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content" role="main">
+            <!--                    上一页-->
+            <a  class="my-page-nav my-previous" >
+                <svg class="icon"  >
+                    <use xlink:href="#icon-hashiqi-left"></use>
+                </svg>
+            </a>
+
+
+            <!--                    下一页-->
+            <a class="my-page-nav my-next" >
+                <svg class="icon"  >
+                    <use xlink:href="#icon-hashiqi-right"></use>
+                </svg>
+            </a>
+
+        </main>
+        <div class="d-none d-xl-block col-xl-2 bd-toc" style="background-color: #9fcdff">
+            <div class="card">
+                <img class="card-img-top" src="data:image/jpeg;base64,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">
+
+                <div class="card-body">
+                    <p class="card-text">正在施工中～～～～</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/marked.min.js}"></script>
+<!--<script th:src="@{js/raphael.min.js}"></script>-->
+<!--<script th:src="@{js/flowchart.min.js}"></script>-->
+<!--<script th:src="@{js/sequence-diagram.min.js}"></script>-->
+<!--<script th:src="@{js/underscore.min.js}"></script>-->
+<!--<script th:src="@{js/jquery.flowchart.min.js}"></script>-->
+<script th:src="@{js/editormd.js}"></script>
+<script th:src="@{/js/prettify.min.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $.getJSON("/essays?page=0",function (data) {
+                data.forEach(function (obj) {
+                    $("<div class=\"article \" >\n" +
+                        "                <div class=\"inner\">\n" +
+                        "                    <div class=\"article-preview\">\n" +
+                        "                        <div class=\"detail\">\n" +
+                        "                            <div class=\"folder\">\n" +
+                        "                                <a href=\"#\">Test</a>\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"time\">\n" + obj.time+
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "                        <div class=\"article-content \">\n" +
+                        "                            <div class=\"content-title\">\n" +
+                        "                                <h1>\n" + obj.essayName+
+                        "                                </h1>\n" +
+                        "                            </div>\n" +
+                        "                            <!--                                       editormd 的js文件修改了overflow ,在这里进行修改-->\n" +
+                        "                            <div  class=\"essay essay_list\"  style=\"overflow: hidden\" id='"+obj.essayName+"'>\n" +
+                        "                                            <textarea class=\"content\"   >\n" +
+                        "\n" +obj.essayContent+
+                        "                                        </textarea>\n" +
+                        "                            </div>\n" +
+                        "\n" +
+                        "                            <div class=\"article-footer\">\n" +
+                        "                                <a class=\"like\" style=\"color:#8CC7B5\">\n" +
+                        "                                    <svg class=\"icon\"  >\n" +
+                        "                                        <use xlink:href=\"#icon-heart-fill\"></use>\n" +
+                        "                                    </svg>\n" +
+                        "                                    <div >"+obj.essayLikeNum+"</div>\n" +
+                        "                                </a>\n" +
+                        "                                <button type=\"button\" class=\"btn btn-primary\" style=\"background-color: #fff\">\n" +
+                        "                                    <div class=\"my-btn\" ><a >More</a></div>\n" +
+                        "                                </button>\n" +
+                        "\n" +
+                        "                            </div>\n" +
+                        "                        </div>\n" +
+                        "\n" +
+                        "                    </div>\n" +
+                        "\n" +
+                        "                </div>\n" +
+                        "            </div>").appendTo(".bd-content");
+                    editormd.markdownToHTML(obj.essayName, {
+                    });
+                });
+
+            }
+        )
+    })
+</script>
+</body>
+</html>

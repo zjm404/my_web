@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ch" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MyBlog | 管理界面</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/AdminLTE/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet"
+          th:href="@{/AdminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+    <!-- iCheck -->
+    <link rel="stylesheet" th:href="@{/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+    <!-- JQVMap -->
+    <link rel="stylesheet" th:href="@{/AdminLTE/plugins/jqvmap/jqvmap.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/AdminLTE/dist/css/adminlte.min.css}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{/AdminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" th:href="@{/AdminLTE/plugins/daterangepicker/daterangepicker.css}">
+    <!-- summernote -->
+    <link rel="stylesheet" th:href="@{/AdminLTE/plugins/summernote/summernote-bs4.css}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/editormd.css}">
+    <link rel="stylesheet" th:href="@{/css/mystyle.css}">
+    <link rel="stylesheet" th:href="@{/css/style_article.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery.contextMenu.css}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="index3.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link">Contact</a>
+            </li>
+        </ul>
+
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <img src="data:image/jpeg;base64,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"
+             alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+             style="opacity: .8;height:140px;width: auto;border-radius: unset">
+
+        <div class="sidebar">
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <li class="nav-item">
+                        <a href="pages/widgets.html" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                文章管理
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pages/widgets.html" class="nav-link">
+                            <i class="nav-icon fas  fa-edit"></i>
+                            <p>
+                                写文章
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+<!--        Main-->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-body">
+                        <form>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row ">
+                    <div id="test-md" >
+                           <textarea id="text" style="display: none;">
+                           </textarea>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 3.0.4
+        </div>
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script th:src="@{/AdminLTE/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/AdminLTE/plugins/jquery-ui/jquery-ui.min.js}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- ChartJS -->
+<script th:src="@{/AdminLTE/plugins/chart.js/Chart.min.js}"></script>
+<!-- Sparkline -->
+<script th:src="@{/AdminLTE/plugins/sparklines/sparkline.js}"></script>
+<!-- JQVMap -->
+<script th:src="@{/AdminLTE/plugins/jqvmap/jquery.vmap.min.js}"></script>
+<script th:src="@{/AdminLTE/plugins/jqvmap/maps/jquery.vmap.usa.js}"></script>
+<!-- jQuery Knob Chart -->
+<script th:src="@{/AdminLTE/plugins/jquery-knob/jquery.knob.min.js}"></script>
+<!-- daterangepicker -->
+<script th:src="@{/AdminLTE/plugins/moment/moment.min.js}"></script>
+<script th:src="@{/AdminLTE/plugins/daterangepicker/daterangepicker.js}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script th:src="@{/AdminLTE/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+<!-- Summernote -->
+<script th:src="@{/AdminLTE/plugins/summernote/summernote-bs4.min.js}"></script>
+<!-- overlayScrollbars -->
+<script th:src="@{/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/AdminLTE/dist/js/adminlte.js}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script th:src="@{/AdminLTE/dist/js/pages/dashboard.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/AdminLTE/dist/js/demo.js}"></script>
+
+<script th:src="@{js/editormd.js}"></script>
+<script th:src="@{js/jquery.min.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        var essayName = $("#title").val();
+        editormd("test-md", {
+            theme: "default",
+            previewTheme: "default",
+            editorTheme: "base16-light",
+            syncScrolling: "single",
+            path: "/js/lib/",
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: "/upload?essayName=" + essayName,
+            toolbarIcons: function () {
+                // Or return editormd.toolbarModes[name]; // full, simple, mini
+                // Using "||" set icons align right.
+                return ["undo", "redo", "|", "bold", "hr", "|", "info", "watch", "fullscreen", "preview", "image",
+                    "||", "save"]
+                //     return ["undo", "redo", "|",
+                //         "bold", "del", "italic", "quote", "uppercase", "lowercase", "|",
+                //         "h1", "h2", "h3", "h4", "h5", "h6", "|",
+                //         "list-ul", "list-ol", "hr", "|",
+                //         "watch", "preview", "fullscreen", "|",
+                //         "help", "info","||","file"];
+            },
+            toolbarIconsClass: {
+                save: "fa-save"
+            },
+            toolbarHandlers: {
+                save: function () {
+                    var title = $("#title").val();
+                    var text = $("#text").val();
+                    var folder = $("#folder").val();
+                    $.ajax({
+                        type: 'post',
+                        url: '/save_blog',
+                        data: {
+                            "title": title,
+                            "text": text,
+                            "folder": folder
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var msg = data["data"];
+                            alert(msg);
+                        }
+                    })
+                }
+            }
+
+
+        });
+    });
+</script>
+</body>
+</html>
